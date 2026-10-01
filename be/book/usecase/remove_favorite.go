@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"fmt"
+
+	"github.com/hansenhalim/elelibrary/be/entity"
 )
 
 type FavoriteRemover interface {
@@ -18,8 +20,8 @@ func NewRemoveFavorite(remover FavoriteRemover) *RemoveFavorite {
 }
 
 func (uc *RemoveFavorite) Execute(ctx context.Context, bookID string) error {
-	if err := validateBookID(bookID); err != nil {
-		return err
+	if !entity.IsValidBookID(bookID) {
+		return ErrInvalidBookID
 	}
 	if err := uc.remover.RemoveFavorite(ctx, bookID); err != nil {
 		return fmt.Errorf("remove favorite: %w", err)

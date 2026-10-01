@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"fmt"
+
+	"github.com/hansenhalim/elelibrary/be/entity"
 )
 
 type FavoriteAdder interface {
@@ -18,8 +20,8 @@ func NewAddFavorite(adder FavoriteAdder) *AddFavorite {
 }
 
 func (uc *AddFavorite) Execute(ctx context.Context, bookID string) error {
-	if err := validateBookID(bookID); err != nil {
-		return err
+	if !entity.IsValidBookID(bookID) {
+		return ErrInvalidBookID
 	}
 	if err := uc.adder.AddFavorite(ctx, bookID); err != nil {
 		return fmt.Errorf("add favorite: %w", err)
