@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: elelibrary
+      POSTGRES_USER: elelibrary
+      POSTGRES_PASSWORD: elelibrary
+    volumes:
+      - db-data:/var/lib/postgresql
+      - ./be/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U elelibrary -d elelibrary"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  be:
+    build: ./be
+    environment:
+      GOOGLE_BOOKS_API_KEY: ${GOOGLE_BOOKS_API_KEY:?set GOOGLE_BOOKS_API_KEY in .env}
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_DATABASE: elelibrary
+      DB_USERNAME: elelibrary
+      DB_PASSWORD: elelibrary
+    depends_on:
+      db:
+        condition: service_healthy
+
+  fe:
+    build: ./fe
+    ports:
+      - "8000:80"
+    depends_on:
+      - be
+
+volumes:
+  db-data:
