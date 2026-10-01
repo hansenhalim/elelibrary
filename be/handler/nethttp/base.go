@@ -9,11 +9,13 @@ import (
 )
 
 type Handler struct {
-	listBooks *usecase.ListBooks
+	listBooks      *usecase.ListBooks
+	addFavorite    *usecase.AddFavorite
+	removeFavorite *usecase.RemoveFavorite
 }
 
-func New(listBooks *usecase.ListBooks) *Handler {
-	return &Handler{listBooks}
+func New(listBooks *usecase.ListBooks, addFavorite *usecase.AddFavorite, removeFavorite *usecase.RemoveFavorite) *Handler {
+	return &Handler{listBooks, addFavorite, removeFavorite}
 }
 
 type messageResponse struct {

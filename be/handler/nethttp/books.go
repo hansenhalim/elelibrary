@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/hansenhalim/elelibrary/be/book/usecase"
-	"github.com/hansenhalim/elelibrary/be/entity"
 )
 
 type listBooksResponse struct {
@@ -19,6 +18,7 @@ type bookResponse struct {
 	Authors      []string `json:"authors"`
 	ThumbnailURL string   `json:"thumbnailUrl"`
 	Rating       float64  `json:"rating"`
+	IsFavorite   bool     `json:"isFavorite"`
 }
 
 func (h *Handler) ListBooks(w http.ResponseWriter, r *http.Request) {
@@ -60,16 +60,17 @@ func intParam(query url.Values, key string) (int, error) {
 	return strconv.Atoi(v)
 }
 
-func toBookResponse(b entity.Book) bookResponse {
-	authors := b.Authors
+func toBookResponse(b usecase.ListedBook) bookResponse {
+	authors := b.Book.Authors
 	if authors == nil {
 		authors = []string{}
 	}
 	return bookResponse{
-		ID:           b.ID,
-		Title:        b.Title,
+		ID:           b.Book.ID,
+		Title:        b.Book.Title,
 		Authors:      authors,
-		ThumbnailURL: b.ThumbnailURL,
-		Rating:       b.Rating,
+		ThumbnailURL: b.Book.ThumbnailURL,
+		Rating:       b.Book.Rating,
+		IsFavorite:   b.IsFavorite,
 	}
 }

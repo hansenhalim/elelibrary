@@ -10,4 +10,5 @@ var (
 	ErrEmptyQuery     = fmt.Errorf("%w: query is required", ErrInvalidInput)
 	ErrNegativeOffset = fmt.Errorf("%w: offset must not be negative", ErrInvalidInput)
 	ErrNegativeLimit  = fmt.Errorf("%w: limit must not be negative", ErrInvalidInput)
+	ErrInvalidBookID  = fmt.Errorf("%w: book id is invalid", ErrInvalidInput)
 )
