@@ -3,7 +3,9 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { searchBooks, type Book } from '@/api/books'
 import SearchForm from '@/components/SearchForm.vue'
+import logo from '@/assets/logo.svg'
 import StarRating from '@/components/StarRating.vue'
+import FavoriteButton from '@/components/FavoriteButton.vue'
 
 const PAGE_SIZE = 20
 
@@ -66,7 +68,9 @@ watch(
     <div class="container">
       <div class="columns is-vcentered">
         <div class="column is-narrow">
-          <RouterLink :to="{ name: 'home' }" class="title is-4">Elelibrary</RouterLink>
+          <RouterLink :to="{ name: 'home' }">
+            <img :src="logo" alt="Elelibrary" style="height: 36px" />
+          </RouterLink>
         </div>
         <div class="column">
           <SearchForm :query="q" />
@@ -86,6 +90,9 @@ watch(
           <p class="has-text-weight-semibold">{{ book.title }}</p>
           <p class="has-text-grey mb-1">{{ book.authors.join(', ') || 'Unknown author' }}</p>
           <StarRating :rating="book.rating" />
+        </div>
+        <div class="media-right">
+          <FavoriteButton v-model="book.isFavorite" :book-id="book.id" />
         </div>
       </article>
 

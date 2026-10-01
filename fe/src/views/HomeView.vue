@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SearchForm from '@/components/SearchForm.vue'
+import logo from '@/assets/logo.svg'
 </script>
 
 <template>
@@ -8,8 +9,17 @@ import SearchForm from '@/components/SearchForm.vue'
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-half">
-            <h1 class="title is-1 has-text-centered">Elelibrary</h1>
+            <h1 class="has-text-centered mb-5">
+              <img :src="logo" alt="Elelibrary" style="max-width: 300px" />
+            </h1>
             <SearchForm />
+            <p class="help has-text-centered mt-3">
+              Can't find good books, why don't give
+              <RouterLink :to="{ name: 'search', query: { q: 'PHP books' } }">
+                PHP books
+              </RouterLink>
+              a try :)
+            </p>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ export interface Book {
   authors: string[]
   thumbnailUrl: string
   rating: number
+  isFavorite: boolean
 }
 
 export async function searchBooks(q: string, offset: number, limit: number): Promise<Book[]> {
@@ -14,4 +15,13 @@ export async function searchBooks(q: string, offset: number, limit: number): Pro
   }
   const body: { books: Book[] } = await res.json()
   return body.books
+}
+
+export async function setFavorite(id: string, favorite: boolean): Promise<void> {
+  const res = await fetch(`/api/favorites/${encodeURIComponent(id)}`, {
+    method: favorite ? 'PUT' : 'DELETE',
+  })
+  if (!res.ok) {
+    throw new Error(`set favorite: unexpected status ${res.status}`)
+  }
 }
