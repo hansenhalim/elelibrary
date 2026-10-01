@@ -1,0 +1,5 @@
+template: testify
+packages:
+  github.com/hansenhalim/elelibrary/be/book/usecase:
+    config:
+      all: true
